@@ -12,3 +12,11 @@ svg {
   display: inline-block;
   vertical-align: middle;
 }
+
+.active {
+  display: block;
+}
+
+.hidden {
+  display: hidden;
+}
