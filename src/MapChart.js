@@ -9,6 +9,7 @@ const markers = [
 		contentA: 'Contract Analysis',
 		contentB: 'BA/BE',
 		contentC: 'Clinic Trials',
+		id: 'USA',
 	},
 	{
 		name: 'Indonesia',
@@ -16,6 +17,7 @@ const markers = [
 		contentA: 'Contract Analysis',
 		contentB: 'BA/BE',
 		contentC: 'Clinic Trials',
+		id: 'IDN',
 	},
 	{
 		name: 'France',
@@ -23,6 +25,7 @@ const markers = [
 		contentA: 'Contract Analysis',
 		contentB: 'BA/BE',
 		contentC: 'Clinic Trials',
+		id: 'FRA',
 	},
 	{
 		name: 'Russia',
@@ -30,6 +33,7 @@ const markers = [
 		contentA: 'Contract Analysis',
 		contentB: 'BA/BE',
 		contentC: 'Clinic Trials',
+		id: 'RUS',
 	},
 	{
 		name: 'Australia',
@@ -37,6 +41,7 @@ const markers = [
 		contentA: 'Contract Analysis',
 		contentB: 'BA/BE',
 		contentC: 'Clinic Trials',
+		id: 'AUS',
 	},
 ];
 
@@ -48,18 +53,38 @@ const MapChart = ({ setTooltipContent }) => {
 		contentA: '',
 		contentB: '',
 		contentC: '',
+		id: '',
 	});
 
-	const toggleClass = (name, coordinates, contentA, contentB, contentC) => {
-		setActive(!active);
-		setCurrent({
-			name: name,
-			coordinates: coordinates,
-			contentA: contentA,
-			contentB: contentB,
-			contentC: contentC,
-		});
+	const toggleClass = (name, coordinates, contentA, contentB, contentC, id) => {
+		if (active) {
+			setActive(false);
+			setCurrent({
+				name: '',
+				coordinates: [],
+				contentA: '',
+				contentB: '',
+				contentC: '',
+				id: '',
+			});
+		} else {
+			setActive(true);
+			setCurrent({
+				name: name,
+				coordinates: coordinates,
+				contentA: contentA,
+				contentB: contentB,
+				contentC: contentC,
+				id: id,
+			});
+		}
 	};
+
+	console.log(current);
+
+	// const checkId = () => {
+	// 	if(current.id === )
+	// }
 
 	return (
 		<>
@@ -98,7 +123,8 @@ const MapChart = ({ setTooltipContent }) => {
 										<Geography
 											key={geo.rsmKey}
 											geography={geo}
-											fill='#D9D9D9'
+											fill={geo.id === current.id ? '#e4ecdc' : '#D9D9D9'}
+											// fill='#D9D9D9'
 											// onMouseEnter={() => {
 											// 	const { name } = geo.properties;
 											// 	setContent(`${name}`);
@@ -116,8 +142,8 @@ const MapChart = ({ setTooltipContent }) => {
 									))
 								}
 							</Geographies>
-							{markers.map(({ name, coordinates, contentA, contentB, contentC }) => (
-								<Marker key={name} coordinates={coordinates} onClick={() => toggleClass(name, coordinates, contentA, contentB, contentC)}>
+							{markers.map(({ name, coordinates, contentA, contentB, contentC, id }) => (
+								<Marker key={name} coordinates={coordinates} onClick={() => toggleClass(name, coordinates, contentA, contentB, contentC, id)}>
 									<circle r={3} fill='#00623D' strokeWidth={1} />
 								</Marker>
 							))}
